@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocab Builder</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Vocab Builder</h1>
+    <p>Discover words. Build your vocabulary.</p>
+  </header>
+
+  <main>
+    <section id="search-section">
+      <h2>Find a Word</h2>
+
+      <form id="search-form">
+        <input
+          type="text"
+          id="word-input"
+          placeholder="Enter a word..."
+          required
+        >
+        <button type="submit">Search</button>
+      </form>
+
+      <p id="message"></p>
+
+      <div id="word-result"></div>
+    </section>
+
+    <section id="saved-section">
+      <h2>My Words</h2>
+      <div id="saved-words"></div>
+    </section>
+
+    <section id="quiz-section">
+      <h2>Quiz Time</h2>
+      <div id="quiz-container"></div>
+    </section>
+
+    <section id="stats-section">
+      <h2>My Progress</h2>
+      <div id="stats-container"></div>
+    </section>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/script.js"></script>
+
+</body>
+</html>
