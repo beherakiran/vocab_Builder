@@ -32,3 +32,18 @@ function removeWord(wordName) {
 
   localStorage.setItem("savedWords", JSON.stringify(updatedWords));
 }
+
+function getQuizStats() {
+  const stats = localStorage.getItem("quizStats");
+
+  return stats
+    ? JSON.parse(stats)
+    : {
+        totalAttempts: 0,
+        correctAnswers: 0,
+      };
+}
+
+function saveQuizStats(stats) {
+  localStorage.setItem("quizStats", JSON.stringify(stats));
+}

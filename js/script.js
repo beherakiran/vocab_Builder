@@ -3,6 +3,7 @@ const searchForm = document.getElementById("search-form");
 const wordInput = document.getElementById("word-input");
 const message = document.getElementById("message");
 const wordResult = document.getElementById("word-result");
+const savedSearch = document.getElementById("saved-search");
 
 searchForm.addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -25,6 +26,18 @@ searchForm.addEventListener("submit", async function (event) {
   } catch (error) {
     message.textContent = "Word not found. Please try another word.";
   }
+});
+
+savedSearch.addEventListener("input", function () {
+  const searchText = savedSearch.value.toLowerCase();
+
+  const savedWords = getSavedWords();
+
+  const filteredWords = savedWords.filter(function (word) {
+    return word.word.toLowerCase().includes(searchText);
+  });
+
+  displaySavedWords(filteredWords);
 });
 
 
@@ -73,8 +86,8 @@ function displayWord(word) {
   });
 }
 
-function displaySavedWords() {
-  const savedWords = getSavedWords();
+function displaySavedWords(words = getSavedWords()) {
+  const savedWords = words;
 
   const savedContainer = document.getElementById("saved-words");
 
