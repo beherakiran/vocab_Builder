@@ -33,11 +33,16 @@ let displayQuiz = () => {
 
   quizContainer.innerHTML = "";
 
-  if (!word) {
-    quizContainer.textContent = "Quiz completed! No more words available.";
-    return;
-  }
+if (!word) {
+  const savedWords = getSavedWords();
 
+  quizContainer.textContent =
+    savedWords.length === 0
+      ? "Save some words first to start your quiz!"
+      : "Quiz completed! No more words available.";
+
+  return;
+}
   const definition = document.createElement("p");
   definition.textContent = word.meanings[0].definitions[0].definition;
 
