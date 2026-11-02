@@ -1,4 +1,3 @@
-
 async function searchWord(word) {
   try {
     const response = await fetch(
@@ -18,7 +17,7 @@ async function searchWord(word) {
     return data[0];
 
   } catch (error) {
-  console.log(error);
-  message.textContent = error.message;
-}
+    console.log(error);
+    throw error;
   }
+}
