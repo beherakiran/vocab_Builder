@@ -25,8 +25,8 @@ let getRandomWord = () => {
   return selectedWord;
 };
 
+
 let displayQuiz = () => {
-  let answered = false;
   const word = getRandomWord();
 
   const quizContainer = document.getElementById("quiz-container");
@@ -34,81 +34,74 @@ let displayQuiz = () => {
   quizContainer.innerHTML = "";
 
   if (!word) {
-    quizContainer.textContent = "Quiz completed ! No more words available.";
+    quizContainer.textContent = "Quiz completed! No more words available.";
     return;
   }
 
   const definition = document.createElement("p");
   definition.textContent = word.meanings[0].definitions[0].definition;
 
-  const answerInput = document.createElement("input");
-
-  answerInput.type = "text";
-  answerInput.placeholder = "Enter your answer";
-
-  answerInput.className =
-    "block w-full rounded-lg border border-slate-300 p-3 mt-4";
-  const checkButton = document.createElement("button");
-
-  checkButton.textContent = "Check Answer";
-
-  checkButton.className =
+  const revealButton = document.createElement("button");
+  revealButton.textContent = "Reveal Answer";
+  revealButton.className =
     "rounded-lg bg-violet-600 px-5 py-2 text-white hover:bg-violet-700 mt-3";
 
-  const resultMessage = document.createElement("p");
+  const answer = document.createElement("p");
+  answer.className = "mt-3 font-bold text-indigo-700";
+  answer.classList.add("hidden");
 
-  checkButton.addEventListener("click", function () {
-    const userAnswer = answerInput.value.trim().toLowerCase();
+  answer.textContent = "Answer: " + word.word;
 
-    if (userAnswer === "") {
-      resultMessage.textContent = "Please enter your answer.";
-      resultMessage.className = "mt-3 text-red-500";
-      return;
-    }
-    if (answered) {
-      return;
-    }
+  const knewButton = document.createElement("button");
+  knewButton.textContent = "I knew it";
+  knewButton.className =
+    "rounded-lg bg-green-600 px-5 py-2 text-white hover:bg-green-700 mt-3 mr-2";
+  knewButton.classList.add("hidden");
 
-    answered = true;
-    checkButton.disabled = true;
+  const didntKnowButton = document.createElement("button");
+  didntKnowButton.textContent = "I didn't";
+  didntKnowButton.className =
+    "rounded-lg bg-red-600 px-5 py-2 text-white hover:bg-red-700 mt-3";
+  didntKnowButton.classList.add("hidden");
 
+  revealButton.addEventListener("click", function () {
+    answer.classList.remove("hidden");
+    knewButton.classList.remove("hidden");
+    didntKnowButton.classList.remove("hidden");
+    revealButton.disabled = true;
+  });
+
+  function recordAnswer(knewTheWord) {
     const stats = getQuizStats();
 
     stats.totalAttempts++;
 
-    if (userAnswer === word.word.toLowerCase()) {
+    if (knewTheWord) {
       stats.correctAnswers++;
     }
 
     saveQuizStats(stats);
+    displayStats();
 
-    if (userAnswer === word.word.toLowerCase()) {
-      resultMessage.textContent = "Correct! Well done!";
-      resultMessage.className = "mt-3 font-bold text-green-600";
-    } else {
-      resultMessage.textContent =
-        "Incorrect! The correct answer is " + word.word;
-      resultMessage.className = "mt-3 font-bold text-red-500";
-    }
-  });
-
-  const nextButton = document.createElement("button");
-
-  nextButton.textContent = "Next Question";
-
-  nextButton.className =
-    "rounded-lg bg-indigo-600 px-5 py-2 text-white hover:bg-indigo-700 mt-3";
-
-  nextButton.addEventListener("click", function () {
     displayQuiz();
+  }
+
+  knewButton.addEventListener("click", function () {
+    recordAnswer(true);
   });
+
+  didntKnowButton.addEventListener("click", function () {
+    recordAnswer(false);
+  });
+
   quizContainer.append(
     definition,
-    answerInput,
-    checkButton,
-    resultMessage,
-    nextButton,
+    revealButton,
+    answer,
+    knewButton,
+    didntKnowButton
   );
 };
 
 displayQuiz();
+
